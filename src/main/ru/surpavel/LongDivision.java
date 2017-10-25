@@ -5,21 +5,21 @@ import java.util.Collections;
 public class LongDivision {
 
     public String longDivide(int dividend, int divisor) {
+
         StringBuilder divisionExpression = new StringBuilder();
         int quotient = dividend / divisor;
-
-        int[] dividendArray = intToArray(dividend);
-
+        int[] dividendDigits = extractDigitsOfNumber(dividend);
+// First line
         divisionExpression
                 .append(dividend)
                 .append("|").append(divisor).append("\n");
 
-        int minuend = dividendArray[0];
 
-
+// Second line
+        int minuend = dividendDigits[0];
         int count = 0;
-        for (int i = 1; minuend < divisor && i + 1 < dividendArray.length; i++) {
-            String differenceString = minuend + "" + dividendArray[i];
+        for (int i = 1; minuend < divisor && i + 1 < dividendDigits.length; i++) {
+            String differenceString = minuend + "" + dividendDigits[i];
             minuend = Integer.parseInt(differenceString);
             count = i;
         }
@@ -38,18 +38,22 @@ public class LongDivision {
         int difference = minuend - subtrahend;
 
         System.out.println("Minuend: " + minuend + ". Subtrahend: " + subtrahend + ". Difference: " + difference);
-        for (int i = count + 1; i < dividendArray.length; i++) {
+
+
+// Remained lines
+        for (int i = count + 1; i < dividendDigits.length; i++) {
 
 
             spaces = spaces + repeatSpace(countDozens(subtrahend) - countDozens(difference));
 
-            if (difference == 0){
+            if (difference == 0) {
                 spaces = spaces + " ";
             }
 
             minuend = difference;
-            for (int n = i; minuend < divisor && n < dividendArray.length; n++) {
-                String minuendString = minuend + "" + dividendArray[n];
+
+            for (int n = i; minuend < divisor && n < dividendDigits.length; n++) {
+                String minuendString = "" + minuend + dividendDigits[n];
                 minuend = Integer.parseInt(minuendString);
                 i = n;
             }
@@ -62,13 +66,14 @@ public class LongDivision {
 
             spaces = spaces + repeatSpace(countDozens(minuend) - countDozens(subtrahend));
 
-            divisionExpression
-                    .append(spaces).append(subtrahend).append("\n");
+            if (minuend != 0) {
+                divisionExpression
+                        .append(spaces).append(subtrahend).append("\n");
+            }
 
             System.out.println("Minuend: " + minuend + ". Subtrahend: " + subtrahend + ". Difference: " + difference);
 
         }
-
 
         return divisionExpression.toString();
 
@@ -78,7 +83,7 @@ public class LongDivision {
         return String.join("", Collections.nCopies(times, " "));
     }
 
-    private int[] intToArray(int number) {
+    private int[] extractDigitsOfNumber(int number) {
         String temp = Integer.toString(number);
         int arraySize = temp.length();
         int[] digitsInNumber = new int[arraySize];
