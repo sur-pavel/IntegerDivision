@@ -12,8 +12,10 @@ public class LongDivision {
 
         String firstLineOfExpression = dividend + "|" + divisor + "\n";
 
-        int minuend = dividendDigits[0];
         int count = 0;
+        String spaces = "";
+        int minuend = dividendDigits[0];
+//===================================
         for (int i = 1; minuend < divisor && i < dividendDigits.length; i++) {
             String differenceString = "" + minuend + dividendDigits[i];
             minuend = Integer.parseInt(differenceString);
@@ -21,25 +23,17 @@ public class LongDivision {
         }
         int subtrahend = (minuend / divisor) * divisor;
         int difference = minuend - subtrahend;
-        String spaces = repeatSpace(countDozens(minuend) - countDozens(subtrahend));
+//===================================
+        spaces += repeatSpace(countDozens(minuend) - countDozens(subtrahend));
         String spacesToQuotient = repeatSpace(countDozens(dividend) - countDozens(minuend));
         String secondLineOfExpression = spaces + subtrahend + spacesToQuotient + "|" + quotient + "\n";
 
-        divisionExpression.append(firstLineOfExpression).append(secondLineOfExpression);
+        divisionExpression.append(firstLineOfExpression);
+        divisionExpression.append(secondLineOfExpression);
 
 
 // Remained lines
         for (int i = count + 1; i < dividendDigits.length; i++) {
-
-            minuend = difference;
-
-            for (int n = i; minuend < divisor && n < dividendDigits.length; n++) {
-                String minuendString = "" + minuend + dividendDigits[n];
-                minuend = Integer.parseInt(minuendString);
-                i = n;
-            }
-            subtrahend = (minuend / divisor) * divisor;
-            difference = minuend - subtrahend;
 
             spaces += repeatSpace(countDozens(subtrahend) - countDozens(difference));
 
@@ -47,6 +41,16 @@ public class LongDivision {
                 spaces += " ";
             }
 
+            minuend = difference;
+//===================================
+            for (int n = i; minuend < divisor && n < dividendDigits.length; n++) {
+                String minuendString = "" + minuend + dividendDigits[n];
+                minuend = Integer.parseInt(minuendString);
+                i = n;
+            }
+            subtrahend = (minuend / divisor) * divisor;
+            difference = minuend - subtrahend;
+//===================================
             String minuendLine = spaces + minuend + "\n";
 
             spaces += repeatSpace(countDozens(minuend) - countDozens(subtrahend));
