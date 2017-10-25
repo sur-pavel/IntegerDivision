@@ -2,18 +2,18 @@ package ru.surpavel;
 
 public class LongDivide {
     private int dividend;
-    private int divider;
+    private int divisor;
     private int n;
     private StringBuffer dividendSB;
     private StringBuffer result = new StringBuffer("");
     private StringBuffer firstSplitedString;
     private StringBuffer secondSplitedString;
-    private StringBuffer print = new StringBuffer("");
+    public StringBuffer print = new StringBuffer("");
 
 
     public LongDivide(int dividend, int divisor) {
         this.dividend = dividend;
-        this.divider = divisor;
+        this.divisor = divisor;
         result = new StringBuffer("");
         this.dividendSB = new StringBuffer(Integer.toString(this.dividend));
     }
@@ -25,39 +25,43 @@ public class LongDivide {
     }
 
     public StringBuffer returnResult() {
-        print.append(dividendSB + "|" + divider + "\n");
 
+//    First two lines of long division
+        print.append(dividendSB + "|" + divisor + "\n");
         printSomeCharSomeTimes(" ", dividendSB.length());
-        printSomeCharSomeTimes("-", Integer.toString(divider).length() + 1);
+        printSomeCharSomeTimes("-", Integer.toString(divisor).length() + 1);
+
+//    Remaining lines of long division
         StringBuffer t = new StringBuffer("");
-        for (int i = 0; this.dividend >= this.divider; i++) {
+        for (int i = 0; this.dividend >= this.divisor; i++) {
             print.append("\n" + t.toString() + this.getLeftDividendNumber());
             count();
-            print.append("\n" + t.toString() + n * divider);
+            print.append("\n" + t.toString() + n * divisor);
             t.append(" ");
         }
 
+        calculateResult();
+        return result;
+    }
+
+    private void calculateResult() {
         if (this.dividend != 0)
             result.append(".");
 
-        int numberOfDigits = 5;
-
-        while (this.dividend != 0 && numberOfDigits != 0) {
-            for (int i = 0; dividend < divider; i++) {
+        for (int numberOfDigits = 5; this.dividend != 0 && numberOfDigits != 0; numberOfDigits--) {
+            for (int i = 0; dividend < divisor; i++) {
                 dividend = Integer.parseInt(dividendSB.append("0").toString());
                 if (i > 0) {
                     result.append("0");
                 }
             }
             count();
-            numberOfDigits--;
         }
-        return result;
     }
 
     public int getLeftDividendNumber() {
         int i = 1;
-        while (Integer.parseInt(Integer.toString(this.dividend).substring(0, i)) < this.divider) {
+        while (Integer.parseInt(Integer.toString(this.dividend).substring(0, i)) < this.divisor) {
             i++;
         }
         this.firstSplitedString = new StringBuffer(Integer.toString(this.dividend).substring(0, i));
@@ -66,9 +70,9 @@ public class LongDivide {
     }
 
     public void count() {
-        this.n = this.getLeftDividendNumber() / divider;
+        this.n = this.getLeftDividendNumber() / divisor;
         result.append(n);
-        this.dividendSB = new StringBuffer(Integer.toString(this.getLeftDividendNumber() % divider));
+        this.dividendSB = new StringBuffer(Integer.toString(this.getLeftDividendNumber() % divisor));
         this.dividendSB.append(this.secondSplitedString);
         dividend = Integer.parseInt(this.dividendSB.toString());
     }
