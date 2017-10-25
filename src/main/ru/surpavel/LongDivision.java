@@ -20,22 +20,16 @@ public class LongDivision {
             count = i;
         }
         int subtrahend = (minuend / divisor) * divisor;
+        int difference = minuend - subtrahend;
         String spaces = repeatSpace(countDozens(minuend) - countDozens(subtrahend));
         String spacesToQuotient = repeatSpace(countDozens(dividend) - countDozens(minuend));
         String secondLineOfExpression = spaces + subtrahend + spacesToQuotient + "|" + quotient + "\n";
 
         divisionExpression.append(firstLineOfExpression).append(secondLineOfExpression);
 
-        int difference = minuend - subtrahend;
 
 // Remained lines
         for (int i = count + 1; i < dividendDigits.length; i++) {
-
-            spaces += repeatSpace(countDozens(subtrahend) - countDozens(difference));
-
-            if (difference == 0) {
-                spaces += " ";
-            }
 
             minuend = difference;
 
@@ -44,9 +38,14 @@ public class LongDivision {
                 minuend = Integer.parseInt(minuendString);
                 i = n;
             }
-
             subtrahend = (minuend / divisor) * divisor;
             difference = minuend - subtrahend;
+
+            spaces += repeatSpace(countDozens(subtrahend) - countDozens(difference));
+
+            if (difference == 0) {
+                spaces += " ";
+            }
 
             String minuendLine = spaces + minuend + "\n";
 
