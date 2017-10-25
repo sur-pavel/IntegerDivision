@@ -28,7 +28,7 @@ public class LongDivisionTest {
                 " 20\n" +
                 " 20\n" +
                 "   0\n";
-        assertEquals(longDivision.longDivide(), expected);
+        assertEquals(expected, longDivision.longDivide());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class LongDivisionTest {
                 " 20\n" +
                 "   4\n" +
                 "   4\n";
-        assertEquals(longDivision.longDivide(), expected);
+        assertEquals(expected, longDivision.longDivide());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class LongDivisionTest {
                 "   4\n" +
                 "   19\n" +
                 "   16\n";
-        assertEquals(longDivision.longDivide(), expected);
+        assertEquals(expected, longDivision.longDivide());
     }
 
     @Test
@@ -68,7 +68,7 @@ public class LongDivisionTest {
                 "  9\n" +
                 "  10\n" +
                 "   9\n";
-        assertEquals(longDivision.longDivide(), expected);
+        assertEquals(expected, longDivision.longDivide());
     }
 
     @Test
@@ -82,7 +82,7 @@ public class LongDivisionTest {
                 " 125\n" +
                 "  164\n" +
                 "  150\n";
-        assertEquals(longDivision.longDivide(), expected);
+        assertEquals(expected, longDivision.longDivide());
     }
 
     @Test
@@ -96,7 +96,7 @@ public class LongDivisionTest {
                 " 2736\n" +
                 "  1149\n" +
                 "  1026\n";
-        assertEquals(longDivision.longDivide(), expected);
+        assertEquals(expected, longDivision.longDivide());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class LongDivisionTest {
                 "  123\n" +
                 "    158\n" +
                 "    123\n";
-        assertEquals(longDivision.longDivide(), expected);
+        assertEquals(expected, longDivision.longDivide());
     }
 
 
