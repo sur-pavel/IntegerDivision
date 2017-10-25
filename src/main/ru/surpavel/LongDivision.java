@@ -9,11 +9,8 @@ public class LongDivision {
         StringBuilder divisionExpression = new StringBuilder();
         int quotient = dividend / divisor;
         int[] dividendDigits = extractDigitsOfNumber(dividend);
-// First line
-        divisionExpression
-                .append(dividend)
-                .append("|").append(divisor).append("\n");
 
+        String firstLineOfExpression = dividend + "|" + divisor + "\n";
 
 // Second line
         int minuend = dividendDigits[0];
@@ -27,27 +24,19 @@ public class LongDivision {
 
 
         String spaces = repeatSpace(countDozens(minuend) - countDozens(subtrahend));
-        divisionExpression
-                .append(spaces)
-                .append(subtrahend)
-                .append(repeatSpace(countDozens(dividend) - countDozens(minuend)))
-                .append("|")
-                .append(quotient)
-                .append("\n");
+        String spacesToQuotient = repeatSpace(countDozens(dividend) - countDozens(minuend));
+        String secondLineOfExpression = spaces + subtrahend + spacesToQuotient + "|" + quotient + "\n";
+        divisionExpression.append(secondLineOfExpression);
 
         int difference = minuend - subtrahend;
-
-        System.out.println("Minuend: " + minuend + ". Subtrahend: " + subtrahend + ". Difference: " + difference);
-
 
 // Remained lines
         for (int i = count + 1; i < dividendDigits.length; i++) {
 
-
             spaces = spaces + repeatSpace(countDozens(subtrahend) - countDozens(difference));
 
             if (difference == 0) {
-                spaces = spaces + " ";
+                spaces += " ";
             }
 
             minuend = difference;
@@ -61,21 +50,22 @@ public class LongDivision {
             subtrahend = (minuend / divisor) * divisor;
             difference = minuend - subtrahend;
 
-            divisionExpression
-                    .append(spaces).append(minuend).append("\n");
+            String minuendLine = spaces + minuend + "\n";
 
-            spaces = spaces + repeatSpace(countDozens(minuend) - countDozens(subtrahend));
+            spaces += repeatSpace(countDozens(minuend) - countDozens(subtrahend));
 
-            if (minuend != 0) {
-                divisionExpression
-                        .append(spaces).append(subtrahend).append("\n");
+
+            String subtrahendLine = spaces + subtrahend + "\n";
+            if (minuend == 0) {
+                subtrahendLine = "";
             }
 
             System.out.println("Minuend: " + minuend + ". Subtrahend: " + subtrahend + ". Difference: " + difference);
 
+            divisionExpression.append(minuendLine).append(subtrahendLine);
         }
 
-        return divisionExpression.toString();
+        return firstLineOfExpression + divisionExpression.toString();
 
     }
 
