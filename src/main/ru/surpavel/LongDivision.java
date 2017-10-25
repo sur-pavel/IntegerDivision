@@ -12,28 +12,26 @@ public class LongDivision {
 
         String firstLineOfExpression = dividend + "|" + divisor + "\n";
 
-// Second line
         int minuend = dividendDigits[0];
         int count = 0;
-        for (int i = 1; minuend < divisor && i + 1 < dividendDigits.length; i++) {
-            String differenceString = minuend + "" + dividendDigits[i];
+        for (int i = 1; minuend < divisor && i < dividendDigits.length; i++) {
+            String differenceString = "" + minuend + dividendDigits[i];
             minuend = Integer.parseInt(differenceString);
             count = i;
         }
         int subtrahend = (minuend / divisor) * divisor;
-
-
         String spaces = repeatSpace(countDozens(minuend) - countDozens(subtrahend));
         String spacesToQuotient = repeatSpace(countDozens(dividend) - countDozens(minuend));
         String secondLineOfExpression = spaces + subtrahend + spacesToQuotient + "|" + quotient + "\n";
-        divisionExpression.append(secondLineOfExpression);
+
+        divisionExpression.append(firstLineOfExpression).append(secondLineOfExpression);
 
         int difference = minuend - subtrahend;
 
 // Remained lines
         for (int i = count + 1; i < dividendDigits.length; i++) {
 
-            spaces = spaces + repeatSpace(countDozens(subtrahend) - countDozens(difference));
+            spaces += repeatSpace(countDozens(subtrahend) - countDozens(difference));
 
             if (difference == 0) {
                 spaces += " ";
@@ -53,20 +51,15 @@ public class LongDivision {
             String minuendLine = spaces + minuend + "\n";
 
             spaces += repeatSpace(countDozens(minuend) - countDozens(subtrahend));
-
-
             String subtrahendLine = spaces + subtrahend + "\n";
+
             if (minuend == 0) {
                 subtrahendLine = "";
             }
 
-            System.out.println("Minuend: " + minuend + ". Subtrahend: " + subtrahend + ". Difference: " + difference);
-
             divisionExpression.append(minuendLine).append(subtrahendLine);
         }
-
-        return firstLineOfExpression + divisionExpression.toString();
-
+        return divisionExpression.toString();
     }
 
     private String repeatSpace(int times) {
