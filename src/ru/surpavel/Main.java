@@ -3,21 +3,16 @@ package ru.surpavel;
 public class Main {
 
     public static void main(String[] args) {
+
+        LongDivision longDivision = new LongDivision();
+        System.out.println(longDivision.longDivide(1000, 4));
+        System.out.println(longDivision.longDivide(10004, 4));
 /*
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter dividend: ");
-        int dividend = scanner.nextInt();
-        System.out.print("Enter divisor: ");
-        int divisor = scanner.nextInt();
-        LongDivide longDivide = new LongDivide(dividend, divisor);
-
-        System.out.println("Quotient: " + longDivide.returnResult());
+        System.out.println(longDivision.longDivide(78459, 4));
+        System.out.println(longDivision.longDivide(1000, 3));
+        System.out.println(longDivision.longDivide(31414, 25));
+        System.out.println(longDivision.longDivide(780909, 342));
 */
-
-        LongDivide longDivide = new LongDivide(1000, 3);
-        System.out.println(longDivide.returnResult());
-        System.out.println(longDivide.print.toString());
-
 
     }
 }

@@ -4,36 +4,78 @@ import java.util.Collections;
 
 public class LongDivision {
 
-    public void longDivide(int dividend, int divisor) {
+    public String longDivide(int dividend, int divisor) {
+        StringBuilder divisionExpression = new StringBuilder();
         int quotient = dividend / divisor;
-        int[] quotientArray = intToArray(quotient);
+
         int[] dividendArray = intToArray(dividend);
 
-        System.out.println("_" + dividend + "|" + divisor);
+        divisionExpression
+                .append(dividend)
+                .append("|").append(divisor).append("\n");
 
-        StringBuilder stringBuilder = new StringBuilder();
-        int spacesRepeatTimes = Integer.toString(dividend).length() - Integer.toString(divisor).length();
-        stringBuilder.append(" ").append(divisor).append(repeatString(" ", spacesRepeatTimes)).append("|")
-                .append(quotient);
-        System.out.println(stringBuilder.toString());
-
-        for (int i = 1; i < quotientArray.length; i++) {
-            int divisorMultiply = divisor * quotientArray[i];
+        int minuend = dividendArray[0];
 
 
-            int localQuotient = (dividend / (int) Math.pow(10, countDozens(dividend))) - divisor * quotientArray[i-1];
+        int count = 0;
+        for (int i = 1; minuend < divisor && i + 1 < dividendArray.length; i++) {
+            String differenceString = minuend + "" + dividendArray[i];
+            minuend = Integer.parseInt(differenceString);
+            count = i;
+        }
+        int subtrahend = (minuend / divisor) * divisor;
 
-            stringBuilder = new StringBuilder();
-            stringBuilder.append(repeatString(" ", i)).append("_").append(Integer.toString(localQuotient) + dividendArray[i]).append("\n")
-                    .append(repeatString(" ", i + 1)).append(divisorMultiply);
-            System.out.println(stringBuilder.toString());
+
+        String spaces = repeatSpace(countDozens(minuend) - countDozens(subtrahend));
+        divisionExpression
+                .append(spaces)
+                .append(subtrahend)
+                .append(repeatSpace(countDozens(dividend) - countDozens(minuend)))
+                .append("|")
+                .append(quotient)
+                .append("\n");
+
+        int difference = minuend - subtrahend;
+
+        System.out.println("Minuend: " + minuend + ". Subtrahend: " + subtrahend + ". Difference: " + difference);
+        for (int i = count + 1; i < dividendArray.length; i++) {
+
+
+            spaces = spaces + repeatSpace(countDozens(subtrahend) - countDozens(difference));
+
+            if (difference == 0){
+                spaces = spaces + " ";
+            }
+
+            minuend = difference;
+            for (int n = i; minuend < divisor && n < dividendArray.length; n++) {
+                String minuendString = minuend + "" + dividendArray[n];
+                minuend = Integer.parseInt(minuendString);
+                i = n;
+            }
+
+            subtrahend = (minuend / divisor) * divisor;
+            difference = minuend - subtrahend;
+
+            divisionExpression
+                    .append(spaces).append(minuend).append("\n");
+
+            spaces = spaces + repeatSpace(countDozens(minuend) - countDozens(subtrahend));
+
+            divisionExpression
+                    .append(spaces).append(subtrahend).append("\n");
+
+            System.out.println("Minuend: " + minuend + ". Subtrahend: " + subtrahend + ". Difference: " + difference);
 
         }
 
+
+        return divisionExpression.toString();
+
     }
 
-    private String repeatString(String stringToRepeat, int times) {
-        return String.join("", Collections.nCopies(times, stringToRepeat));
+    private String repeatSpace(int times) {
+        return String.join("", Collections.nCopies(times, " "));
     }
 
     private int[] intToArray(int number) {
@@ -47,7 +89,7 @@ public class LongDivision {
     }
 
     private int countDozens(int number) {
-        return String.valueOf(number).length() - 1;
+        return String.valueOf(number).length();
     }
 
 
