@@ -5,54 +5,54 @@ public class LongDivide {
     private int divisor;
     private int n;
     private StringBuffer dividendSB;
-    private StringBuffer result = new StringBuffer("");
+    private StringBuffer quotient = new StringBuffer("");
     private StringBuffer firstSplitedString;
     private StringBuffer secondSplitedString;
-    public StringBuffer print = new StringBuffer("");
+    public StringBuffer divisionExpression = new StringBuffer("");
 
 
     public LongDivide(int dividend, int divisor) {
         this.dividend = dividend;
         this.divisor = divisor;
-        result = new StringBuffer("");
+        quotient = new StringBuffer("");
         this.dividendSB = new StringBuffer(Integer.toString(this.dividend));
     }
 
-    public void printSomeCharSomeTimes(String s, int n) {
+    public void repeatAddToExpression(String s, int n) {
         for (int i = 0; i < n; i++) {
-            print.append(s);
+            divisionExpression.append(s);
         }
     }
 
     public StringBuffer returnResult() {
 
 //    First two lines of long division
-        print.append(dividendSB + "|" + divisor + "\n");
-        printSomeCharSomeTimes(" ", dividendSB.length());
-        printSomeCharSomeTimes("-", Integer.toString(divisor).length() + 1);
+        divisionExpression.append(dividendSB + "|" + divisor + "\n");
+        repeatAddToExpression(" ", dividendSB.length());
+        repeatAddToExpression("-", Integer.toString(divisor).length() + 1);
 
 //    Remaining lines of long division
         StringBuffer t = new StringBuffer("");
         for (int i = 0; this.dividend >= this.divisor; i++) {
-            print.append("\n" + t.toString() + this.getLeftDividendNumber());
+            divisionExpression.append("\n" + t.toString() + this.getLeftDividendNumber());
             count();
-            print.append("\n" + t.toString() + n * divisor);
+            divisionExpression.append("\n" + t.toString() + n * divisor);
             t.append(" ");
         }
 
         calculateResult();
-        return result;
+        return quotient;
     }
 
     private void calculateResult() {
         if (this.dividend != 0)
-            result.append(".");
+            quotient.append(".");
 
         for (int numberOfDigits = 5; this.dividend != 0 && numberOfDigits != 0; numberOfDigits--) {
             for (int i = 0; dividend < divisor; i++) {
                 dividend = Integer.parseInt(dividendSB.append("0").toString());
                 if (i > 0) {
-                    result.append("0");
+                    quotient.append("0");
                 }
             }
             count();
@@ -71,7 +71,7 @@ public class LongDivide {
 
     public void count() {
         this.n = this.getLeftDividendNumber() / divisor;
-        result.append(n);
+        quotient.append(n);
         this.dividendSB = new StringBuffer(Integer.toString(this.getLeftDividendNumber() % divisor));
         this.dividendSB.append(this.secondSplitedString);
         dividend = Integer.parseInt(this.dividendSB.toString());
