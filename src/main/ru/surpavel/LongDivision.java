@@ -17,10 +17,16 @@ public class LongDivision {
     }
 
     public String longDivide() {
+        String SPACE = " ";
+        String MINUS = "_";
+        String UPPER_UNDERSCORE = "¯";
 
         StringBuilder divisionExpression = new StringBuilder();
-        divisionExpression.append("_" + this.dividend + "|" + this.divisor + "\n" + repeatString(" ", getLength(dividend) + 2) + repeatString("¯", getLength(divisor)) + "\n");
-
+        String firstLine = MINUS + this.dividend + "|" + this.divisor + "\n";
+        String divisorUnderscore = repeatString(SPACE, getLength(dividend) + 2) + repeatString(UPPER_UNDERSCORE, getLength(divisor)) + "\n";
+        divisionExpression
+                .append(firstLine)
+                .append(divisorUnderscore);
         int subtrahend = 0;
         int minuend;
         int difference = 0;
@@ -28,7 +34,7 @@ public class LongDivision {
         for (int currentIndex = 0; currentIndex < this.dividendDigits.length; currentIndex++) {
             int count = currentIndex;
             if (currentIndex != 0) {
-                spaces += repeatString(" ", getLength(subtrahend) - getLength(difference));
+                spaces += repeatString(SPACE, getLength(subtrahend) - getLength(difference));
                 if (difference == 0) {
                     spaces += " ";
                 }
@@ -49,9 +55,9 @@ public class LongDivision {
             subtrahend = (minuend / this.divisor) * this.divisor;
             difference = minuend - subtrahend;
 
-            String minuendLine = repeatString(" ", spaces.length() - 1) + "_" + minuend + "\n";
+            String minuendLine = repeatString(SPACE, spaces.length() - 1) + MINUS + minuend + "\n";
 
-            spaces += repeatString(" ", getLength(minuend) - getLength(subtrahend));
+            spaces += repeatString(SPACE, getLength(minuend) - getLength(subtrahend));
             String subtrahendLine = spaces + subtrahend;
 
             if (currentIndex == 0) {
@@ -64,7 +70,7 @@ public class LongDivision {
                 subtrahendLine = "";
                 minuendLine = minuendLine.replace('_', ' ');
             }
-            String underline = spaces + repeatString("¯", getLength(subtrahend)) + "\n";
+            String underline = spaces + repeatString(UPPER_UNDERSCORE, getLength(subtrahend)) + "\n";
             divisionExpression.append(minuendLine).append(subtrahendLine).append(underline);
             currentIndex = count;
         }
@@ -88,6 +94,4 @@ public class LongDivision {
     private int getLength(int number) {
         return String.valueOf(number).length();
     }
-
-
 }
