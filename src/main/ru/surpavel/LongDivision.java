@@ -19,14 +19,12 @@ public class LongDivision {
     public String longDivide() {
         String SPACE = " ";
         String MINUS = "_";
-        String UPPER_UNDERSCORE = "¯";
+        String UNDERSCORE = "¯";
 
         StringBuilder divisionExpression = new StringBuilder();
         String firstLine = MINUS + this.dividend + "|" + this.divisor + "\n";
-        String divisorUnderscore = repeatString(SPACE, getLength(dividend) + 2) + repeatString(UPPER_UNDERSCORE, getLength(divisor)) + "\n";
         divisionExpression
-                .append(firstLine)
-                .append(divisorUnderscore);
+                .append(firstLine);
         int subtrahend = 0;
         int minuend;
         int difference = 0;
@@ -44,13 +42,13 @@ public class LongDivision {
             } else {
                 minuend = difference;
             }
-            for (int n = currentIndex; minuend < this.divisor && n < this.dividendDigits.length; n++) {
-                if (n == 0) {
-                    n++;
+            for (int i = currentIndex; minuend < this.divisor && i < this.dividendDigits.length; i++) {
+                if (i == 0) {
+                    i++;
                 }
-                String minuendString = "" + minuend + this.dividendDigits[n];
+                String minuendString = "" + minuend + this.dividendDigits[i];
                 minuend = Integer.parseInt(minuendString);
-                count = n;
+                count = i;
             }
             subtrahend = (minuend / this.divisor) * this.divisor;
             difference = minuend - subtrahend;
@@ -70,7 +68,7 @@ public class LongDivision {
                 subtrahendLine = "";
                 minuendLine = minuendLine.replace('_', ' ');
             }
-            String underline = spaces + repeatString(UPPER_UNDERSCORE, getLength(subtrahend)) + "\n";
+            String underline = spaces + repeatString(UNDERSCORE, getLength(subtrahend)) + "\n";
             divisionExpression.append(minuendLine).append(subtrahendLine).append(underline);
             currentIndex = count;
         }
