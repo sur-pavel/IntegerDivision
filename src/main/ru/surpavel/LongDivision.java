@@ -38,12 +38,6 @@ public class LongDivision {
         int minuend = 0;
         String spaces = SPACE;
         for (int currentIndex = 0; currentIndex < dividendDigits.length; currentIndex++) {
-            if (currentIndex != 0) {
-                spaces += repeatString(SPACE, getLength(subtrahend) - getLength(minuend));
-                if (minuend == 0) {
-                    spaces += SPACE;
-                }
-            }
             minuend = calculateMinuend(minuend, currentIndex);
             String minuendLine = repeatString(SPACE, spaces.length() - 1) + MINUS + minuend + "\n";
 
@@ -63,6 +57,10 @@ public class LongDivision {
             division.append(minuendLine).append(subtrahendLine).append(lineUnderSubtrahend);
             currentIndex = minuendCalculationIndex;
             minuend = minuend - subtrahend;
+            spaces += repeatString(SPACE, getLength(subtrahend) - getLength(minuend));
+            if (minuend == 0) {
+                spaces += SPACE;
+            }
         }
     }
 
