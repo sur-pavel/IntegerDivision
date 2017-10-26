@@ -4,75 +4,75 @@ import java.util.Collections;
 
 public class LongDivision {
 
+    private static final String SPACE = " ";
+    private static final String MINUS = "_";
+    private static final String HYPHEN = "-";
+    private static final String PIPE = "|";
+
     private int dividend;
     private int divisor;
     private int quotient;
     private int[] dividendDigits;
+    private int minuendCalculationIndex;
 
     public LongDivision(int dividend, int divisor) {
+        if(divisor == 0) {
+            throw new IllegalArgumentException("Divisor can't be 0");
+        }
         this.dividend = dividend;
         this.divisor = divisor;
         this.quotient = dividend / divisor;
         this.dividendDigits = extractDigitsOfNumber(dividend);
     }
 
-    public String longDivide() {
-        String SPACE = " ";
-        String MINUS = "_";
-        String UNDERSCORE = "¯";
+    public String createDivision() {
+        StringBuilder division = new StringBuilder();
+        String firstLine = MINUS + dividend + PIPE + divisor + "\n";
+        division.append(firstLine);
+        formRemainingLines(division);
+        return division.toString();
+    }
 
-        StringBuilder divisionExpression = new StringBuilder();
-        String firstLine = MINUS + this.dividend + "|" + this.divisor + "\n";
-        divisionExpression
-                .append(firstLine);
+    private void formRemainingLines(StringBuilder division) {
         int subtrahend = 0;
-        int minuend;
-        int difference = 0;
-        String spaces = " ";
-        for (int currentIndex = 0; currentIndex < this.dividendDigits.length; currentIndex++) {
-            int count = currentIndex;
+        int minuend = 0;
+        String spaces = SPACE;
+        for (int currentIndex = 0; currentIndex < dividendDigits.length; currentIndex++) {
             if (currentIndex != 0) {
-                spaces += repeatString(SPACE, getLength(subtrahend) - getLength(difference));
-                if (difference == 0) {
-                    spaces += " ";
+                spaces += repeatString(SPACE, getLength(subtrahend) - getLength(minuend));
+                if (minuend == 0) {
+                    spaces += SPACE;
                 }
             }
-            if (currentIndex == 0) {
-                minuend = this.dividendDigits[0];
-            } else {
-                minuend = difference;
-            }
-            for (int i = currentIndex; minuend < this.divisor && i < this.dividendDigits.length; i++) {
-                if (i == 0) {
-                    i++;
-                }
-                String minuendString = "" + minuend + this.dividendDigits[i];
-                minuend = Integer.parseInt(minuendString);
-                count = i;
-            }
-            subtrahend = (minuend / this.divisor) * this.divisor;
-            difference = minuend - subtrahend;
-
+            minuend = calculateMinuend(minuend, currentIndex);
             String minuendLine = repeatString(SPACE, spaces.length() - 1) + MINUS + minuend + "\n";
 
+            subtrahend = (minuend / divisor) * divisor;
             spaces += repeatString(SPACE, getLength(minuend) - getLength(subtrahend));
-            String subtrahendLine = spaces + subtrahend;
-
-            if (currentIndex == 0) {
-                minuendLine = "";
-                String spacesToQuotient = repeatString(" ", getLength(this.dividend) - getLength(minuend));
-                subtrahendLine += spacesToQuotient + "|" + this.quotient;
-            }
-            subtrahendLine += "\n";
+            String subtrahendLine = spaces + subtrahend + "\n";
+            String lineUnderSubtrahend = spaces + repeatString(HYPHEN, getLength(subtrahend)) + "\n";
             if (minuend == 0) {
                 subtrahendLine = "";
                 minuendLine = minuendLine.replace('_', ' ');
             }
-            String underline = spaces + repeatString(UNDERSCORE, getLength(subtrahend)) + "\n";
-            divisionExpression.append(minuendLine).append(subtrahendLine).append(underline);
-            currentIndex = count;
+            if (currentIndex == 0) {
+                minuendLine = "";
+                String spacesToQuotient = repeatString(SPACE, getLength(dividend) - getLength(minuend));
+                subtrahendLine = spaces + subtrahend + spacesToQuotient + PIPE + quotient + "\n";
+            }
+            division.append(minuendLine).append(subtrahendLine).append(lineUnderSubtrahend);
+            currentIndex = minuendCalculationIndex;
+            minuend = minuend - subtrahend;
         }
-        return divisionExpression.toString();
+    }
+
+    private int calculateMinuend(int minuend, int currentIndex) {
+        for (int i = currentIndex; minuend < divisor && i < dividendDigits.length; i++) {
+            String minuendString = "" + minuend + dividendDigits[i];
+            minuend = Integer.parseInt(minuendString);
+            minuendCalculationIndex = i;
+        }
+        return minuend;
     }
 
     private String repeatString(String whatRepeat, int times) {
@@ -80,11 +80,10 @@ public class LongDivision {
     }
 
     private int[] extractDigitsOfNumber(int number) {
-        String temp = Integer.toString(number);
-        int arraySize = temp.length();
-        int[] digitsInNumber = new int[arraySize];
-        for (int i = 0; i < arraySize; i++) {
-            digitsInNumber[i] = temp.charAt(i) - '0';
+        String numberToString = Integer.toString(number);
+        int[] digitsInNumber = new int[getLength(number)];
+        for (int i = 0; i < digitsInNumber.length; i++) {
+            digitsInNumber[i] = numberToString.charAt(i) - '0';
         }
         return digitsInNumber;
     }
